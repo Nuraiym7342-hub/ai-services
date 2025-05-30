@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block content %}
+    <ul class="sidebar-menu">
+        <li><a href="{{ url_for('main.home') }}">Our posts</a></li>
+        <li><a href="{{ url_for('main.contact') }}" class="active">Other posts</a></li>
+    </ul>
+
+    <h2 class="mb-4">Sample Posts</h2>
+    
+    <div id="custom-posts" class="row">
+        <!-- Post 1 -->
+        <div class="col-12 mb-4">
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ url_for('static', filename='custom/avatar1.jpg') }}" alt="Profile Picture">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="#">Leanne Graham</a>
+                        <small class="text-muted">Email: Sincere@april.biz</small>
+                    </div>
+                    <h2 class="article-title">Life begins at the end of your comfort zone </h2>
+                    <p class="article-content">I don't like those cold, precise, perfect people, who, in order not to speak wrong, never speak at all, and in order not to do wrong never do anything</p>
+                    <img src="{{ url_for('static', filename='custom/post1.jpg') }}" class="img-fluid mb-3" alt="Post Image">
+                </div>
+            </article>
+        </div>
+        
+        <!-- Post 2 -->
+        <div class="col-12 mb-4">
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ url_for('static', filename='custom/avatar2.jpg') }}" alt="Profile Picture">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="#">Ervin Howell</a>
+                        <small class="text-muted">Email: Shanna@melissa.tv</small>
+                    </div>
+                    <h2 class="article-title">Either write something worth reading or do something worth writing.</h2>
+                    <p class="article-content">There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.</p>
+                    <img src="{{ url_for('static', filename='custom/post2.jpg') }}" class="img-fluid mb-3" alt="Post Image">
+                </div>
+            </article>
+        </div>
+        
+        <!-- Post 3 -->
+        <div class="col-12 mb-4">
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ url_for('static', filename='custom/avatar3.jpg') }}" alt="Profile Picture">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="#">Clementine Bauch</a>
+                        <small class="text-muted">Email: Nathan@yesenia.net</small>
+                    </div>
+                    <h2 class="article-title">Success is not the key to happiness. To be honest to cats and dogs</p>
+                    <img src="{{ url_for('static', filename='custom/post3.jpg') }}" class="img-fluid mb-3" alt="Post Image">
+                </div>
+            </article>
+        </div>
+        
+        <!-- Post 4 -->
+        <div class="col-12 mb-4">
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ url_for('static', filename='custom/avatar4.jpg') }}" alt="Profile Picture">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="#">Patricia Lebsack</a>
+                        <small class="text-muted">Email: Julianne.OConner@kory.org</small>
+                    </div>
+                    <h2 class="article-title">I am not a product of my circumstances. I am a product of my decisions. </h2>
+                    <p class="article-content">Love is a fire. But whether it is going to warm your hearth or burn down your house, you can never tell.</p>
+                    <img src="{{ url_for('static', filename='custom/post4.jpg') }}" class="img-fluid mb-3" alt="Post Image">
+                </div>
+            </article>
+        </div>
+        
+        <!-- Post 5 -->
+        <div class="col-12 mb-4">
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ url_for('static', filename='custom/avatar5.jpg') }}" alt="Profile Picture">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="#">Chelsey Dietrich</a>
+                        <small class="text-muted">Email: Lucio_Hettinger@annie.ca</small>
+                    </div>
+                    <h2 class="article-title">Dream as if you’ll live forever, live as if you’ll die today. </h2>
+                    <p class="article-content">When I was 5 years old, my mother always told me that happiness was the key to life. When I went to school, they asked me what I wanted to be when I grew up. I wrote down ‘happy’. They told me I didn’t understand the assignment, and I told them they didn’t understand life.</p>
+                    <img src="{{ url_for('static', filename='custom/post5.jpg') }}" class="img-fluid mb-3" alt="Post Image">
+                </div>
+            </article>
+        </div>
+    </div>
+{% endblock content %}

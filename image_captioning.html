@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <h2 class="mb-4">Automatic photo description</h2>
+        <p class="text-muted">Upload a picture and AI will identify what it is and provide a description.</p>
+        
+        <form method="POST" action="{{ url_for('main.image_captioning') }}" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="form-group mb-3">
+                {{ form.image.label(class="form-control-label") }}
+                {{ form.image(class="form-control") }}
+                {% if form.image.errors %}
+                    {% for error in form.image.errors %}
+                        <span class="text-danger">{{ error }}</span><br>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.analyze(class="btn btn-primary") }}
+            </div>
+        </form>
+        
+        {% if image_result %}
+            <div class="mt-4">
+                <h3>Image analysis:</h3>
+                <div class="card">
+                    <div class="card-body">
+                        {% if image_path %}
+                            <img src="{{ url_for('static', filename='uploads/' + image_path) }}" class="img-fluid mb-3" alt="Uploaded Image">
+                        {% endif %}
+                        
+                        <h4 class="card-title">Description:</h4>
+                        <p class="card-text">{{ image_result.description }}</p>
+                        
+                        {% if image_result.tags %}
+                            <h5>Defined tags:</h5>
+                            <div class="d-flex flex-wrap">
+                                {% for tag in image_result.tags %}
+                                    <span class="badge bg-primary me-2 mb-2">{{ tag.label }} ({{ (tag.score * 100) | round(1) }}%)</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <form method="POST" action="{{ url_for('posts.new_post_from_image') }}">
+                            <input type="hidden" name="image_path" value="{{ image_path }}">
+                            <input type="hidden" name="description" value="{{ image_result.description }}">
+                            <button type="submit" class="btn btn-success mt-3">Publish this image as a post</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

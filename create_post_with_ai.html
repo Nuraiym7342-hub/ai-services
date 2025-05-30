@@ -1,0 +1,155 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">{{ legend }}</legend>
+                <div class="form-group mb-3">
+                    {{ form.title.label(class="form-control-label") }}
+                    {% if form.title.errors %}
+                        {{ form.title(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.title(class="form-control") }}
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.content.label(class="form-control-label") }}
+                    {% if form.content.errors %}
+                        {{ form.content(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.content.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.content(class="form-control", rows=10) }}
+                    {% endif %}
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-outline-info btn-sm" id="aiHelpBtn" data-bs-toggle="modal" data-bs-target="#aiHelpModal">
+                            <i class="fas fa-robot me-1"></i> AI көмегін қолдану
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.picture.label() }}
+                    {{ form.picture(class="form-control") }}
+                    {% if form.picture.errors %}
+                        {% for error in form.picture.errors %}
+                            <span class="text-danger">{{ error }}</span><br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+
+    <!-- AI Help Modal -->
+    <div class="modal fade" id="aiHelpModal" tabindex="-1" aria-labelledby="aiHelpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aiHelpModalLabel">AI мәтін генераторы</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="aiPrompt" class="form-label">Не жазарымды білмей тұрмын...</label>
+                        <textarea class="form-control" id="aiPrompt" rows="3" placeholder="Тақырыпты немесе идеяны енгізіңіз, немесе бос қалдырыңыз"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="generateBtn">Мәтін генерациялау</button>
+                    
+                    <div id="aiResult" class="mt-3 d-none">
+                        <h5>Генерацияланған мәтін:</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title" id="aiTitle"></h5>
+                                <p class="card-text" id="aiContent"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="aiLoading" class="text-center mt-3 d-none">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Жүктелуде...</span>
+                        </div>
+                        <p>Мәтін генерацияланып жатыр...</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Жабу</button>
+                    <button type="button" class="btn btn-success" id="useAiTextBtn" disabled>Осы мәтінді қолдану</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateBtn = document.getElementById('generateBtn');
+            const aiPrompt = document.getElementById('aiPrompt');
+            const aiResult = document.getElementById('aiResult');
+            const aiLoading = document.getElementById('aiLoading');
+            const aiTitle = document.getElementById('aiTitle');
+            const aiContent = document.getElementById('aiContent');
+            const useAiTextBtn = document.getElementById('useAiTextBtn');
+            const titleInput = document.querySelector('input[name="title"]');
+            const contentTextarea = document.querySelector('textarea[name="content"]');
+            
+            generateBtn.addEventListener('click', function() {
+                // AI мәтін генерациясы сұрауын жіберу
+                const prompt = aiPrompt.value || "Не жазарымды білмей тұрмын";
+                
+                // Жүктелу индикаторын көрсету
+                aiResult.classList.add('d-none');
+                aiLoading.classList.remove('d-none');
+                useAiTextBtn.disabled = true;
+                
+                // AJAX сұрауы арқылы AI мәтін генерациясын сұрау
+                fetch('/ai-text-generator/api', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({prompt: prompt})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Жүктелу индикаторын жасыру
+                    aiLoading.classList.add('d-none');
+                    
+                    if (data.success) {
+                        // Нәтижені көрсету
+                        aiTitle.textContent = data.title;
+                        aiContent.textContent = data.content;
+                        aiResult.classList.remove('d-none');
+                        useAiTextBtn.disabled = false;
+                    } else {
+                        alert('Қате: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    aiLoading.classList.add('d-none');
+                    alert('Қате орын алды: ' + error);
+                });
+            });
+            
+            useAiTextBtn.addEventListener('click', function() {
+                // AI генерацияланған мәтінді формаға қолдану
+                titleInput.value = aiTitle.textContent;
+                contentTextarea.value = aiContent.textContent;
+                
+                // Модальді жабу
+                const modal = bootstrap.Modal.getInstance(document.getElementById('aiHelpModal'));
+                modal.hide();
+            });
+        });
+    </script>
+{% endblock content %}

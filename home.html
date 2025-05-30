@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+    <ul class="sidebar-menu">
+        <li><a href="{{ url_for('main.home') }}" class="active">Our posts</a></li>
+        <li><a href="{{ url_for('main.contact') }}">Other posts</a></li>
+        <li><a href="{{ url_for('main.ai_text_generator') }}">AI мәтін генераторы</a></li>
+        <li><a href="{{ url_for('main.image_captioning') }}">Сурет талдау</a></li>
+    </ul>
+
+    <h2 class="mb-4">Our posts</h>
+
+    {% for post in posts.items %}
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='uploads/' + post.author.image_file) }}" alt="Profile Picture">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="{{ url_for('posts.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+                    <small class="text-muted">{{ post.created_at.strftime('%Y-%m-%d') }}</small>
+                </div>
+                <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
+                <p class="article-content">{{ post.content[:150] }}{% if post.content|length > 150 %}...{% endif %}</p>
+                {% if post.image_file %}
+                    <img src="{{ url_for('static', filename='uploads/' + post.image_file) }}" class="img-fluid mb-3" alt="Post Image">
+                {% endif %}
+            </div>
+        </article>
+    {% endfor %}
+    
+    
+{% endblock content %}

@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <h2>Вход в аккаунт</h2>
+        </div>
+        
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="auth-form">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        {% if form.email.errors %}
+                            {{ form.email(class="form-control is-invalid", placeholder="Email") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.email(class="form-control", placeholder="Email") }}
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        {% if form.password.errors %}
+                            {{ form.password(class="form-control is-invalid", placeholder="Пароль") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password(class="form-control", placeholder="Пароль") }}
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group remember-group">
+                    <div class="form-check">
+                        {{ form.remember(class="form-check-input") }}
+                        {{ form.remember.label(class="form-check-label") }}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.submit(class="auth-button") }}
+                </div>
+                
+                <div class="auth-footer">
+                    <p>Нет аккаунта? <a href="{{ url_for('auth.register') }}">Зарегистрироваться</a></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

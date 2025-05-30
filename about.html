@@ -1,0 +1,126 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="about-container">
+    <div class="about-header">
+        <h1 class="display-4 text-center mb-4">About our blog</h1>
+        <div class="header-underline"></div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="about-card">
+                <div class="about-icon">
+                    <i class="fas fa-book-open fa-3x"></i>
+                </div>
+                <h2 class="about-title">Our mission</h2>
+                <p class="about-text">
+                    This is a full-featured Flask blog application built to connect creative people. We aim to create a space where everyone can share their thoughts, ideas, and stories. Our platform provides a convenient interface for creating and managing content.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="about-image-container">
+                <img src="{{ url_for('static', filename='images/about-image.jpg') }}" alt="Blog Community" class="about-image">
+                <div class="image-overlay">
+                    <span>We unite creative people</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="features-section mt-5">
+        <h2 class="text-center mb-4">Platform capabilities</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>Personalization</h3>
+                    <ul>
+                        <li>User registration and login</li>
+                        <li>Managing a profile with avatars</li>
+                        <li>Personal feed of publications</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>Content Management</h3>
+                    <ul>
+                        <li>Create, read, update and delete posts</li>
+                        <li>Uploading images for posts</li>
+                        <li>Commenting and discussion</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Convenient search</h3>
+                    <ul>
+                        <li>Search functionality</li>
+                        <li>Pagination for posts</li>
+                        <li>Filter by categories</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tech-section mt-5">
+        <h2 class="text-center mb-4">Technologies used</h2>
+        <div class="tech-container">
+            <div class="tech-item">
+                <div class="tech-logo">
+                    <i class="fab fa-python"></i>
+                </div>
+                <span>Flask</span>
+            </div>
+            <div class="tech-item">
+                <div class="tech-logo">
+                    <i class="fas fa-database"></i>
+                </div>
+                <span>SQLAlchemy</span>
+            </div>
+            <div class="tech-item">
+                <div class="tech-logo">
+                    <i class="fas fa-check-square"></i>
+                </div>
+                <span>WTForms</span>
+            </div>
+            <div class="tech-item">
+                <div class="tech-logo">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <span>Flask-Login</span>
+            </div>
+            <div class="tech-item">
+                <div class="tech-logo">
+                    <i class="fas fa-image"></i>
+                </div>
+                <span>Pillow</span>
+            </div>
+            <div class="tech-item">
+                <div class="tech-logo">
+                    <i class="fab fa-bootstrap"></i>
+                </div>
+                <span>Bootstrap</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="cta-section mt-5">
+        <div class="cta-card">
+            <h2>Join our community!</h2>
+            <p>Start sharing your stories and ideas now.</p>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Register</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

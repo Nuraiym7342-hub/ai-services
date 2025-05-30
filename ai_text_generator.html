@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <h2 class="mb-4">AI text generator</h2>
+        <p class="text-muted">Need help writing a post? Generate text with AI!</p>
+        
+        <form method="POST" action="{{ url_for('main.ai_text_generator') }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group mb-3">
+                {{ form.prompt.label(class="form-control-label") }}
+                {{ form.prompt(class="form-control", rows=3, placeholder="I don't know what to write...") }}
+                <small class="form-text text-muted">Enter a topic or idea, or leave it blank.</small>
+            </div>
+            <div class="form-check mb-3">
+                {{ form.use_ai_help(class="form-check-input") }}
+                {{ form.use_ai_help.label(class="form-check-label") }}
+            </div>
+            <div class="form-group">
+                {{ form.generate(class="btn btn-primary") }}
+            </div>
+        </form>
+        
+        {% if generated_text %}
+            <div class="mt-4">
+                <h3>Generated text:</h3>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ generated_title }}</h4>
+                        <p class="card-text">{{ generated_text }}</p>
+                        
+                        <form method="POST" action="{{ url_for('posts.new_post_from_ai') }}">
+                            <input type="hidden" name="title" value="{{ generated_title }}">
+                            <input type="hidden" name="content" value="{{ generated_text }}">
+                            <button type="submit" class="btn btn-success">Publish this text as a post</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <h2 class="mb-4">AI Chatbot</h2>
+        <div id="chatbox" class="border p-3 mb-3" style="height: 400px; overflow-y: scroll;">
+            {# Chat messages will be displayed here #}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="mb-2">
+                        <strong>{{ message.sender }}:</strong> {{ message.text }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">Start the conversation!</p>
+            {% endif %}
+        </div>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group mb-3">
+                {{ form.message.label(class="form-control-label sr-only") }}
+                {{ form.message(class="form-control", rows=3, placeholder="Enter your message...") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %} 
